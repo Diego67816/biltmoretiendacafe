@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biltmore - Lácteos</title>
+    <link rel="stylesheet" href="diseño lacteos.css">
+    <script>
+        function agregarProducto(id) {
+            let tabla = document.getElementById('tabla-productos');
+            let fila = document.getElementById('fila-' + id);
+            let nombreProducto = document.getElementById('nombre-' + id).innerText;
+            let precioProducto = parseFloat(document.getElementById('precio-' + id).innerText.replace('$', ''));
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText) + 1;
+
+            cantidadElement.innerText = cantidad;
+
+            if (fila) {
+                let cantidadFila = fila.querySelector('.cantidad-fila');
+                let totalFila = fila.querySelector('.total-fila');
+                cantidadFila.innerText = cantidad;
+                totalFila.innerText = '$' + (cantidad * precioProducto).toFixed(2);
+            } else {
+                let nuevaFila = tabla.insertRow();
+                nuevaFila.id = 'fila-' + id;
+                nuevaFila.innerHTML = `
+                    <td>${nombreProducto}</td>
+                    <td class="cantidad-fila">${cantidad}</td>
+                    <td>$${precioProducto.toFixed(2)}</td>
+                    <td class="total-fila">$${(cantidad * precioProducto).toFixed(2)}</td>
+                `;
+            }
+            calcularTotal();
+        }
+
+        function quitarProducto(id) {
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText);
+            if (cantidad > 0) {
+                cantidad--;
+                cantidadElement.innerText = cantidad;
+
+                let fila = document.getElementById('fila-' + id);
+                if (fila) {
+                    let cantidadFila = fila.querySelector('.cantidad-fila');
+                    let totalFila = fila.querySelector('.total-fila');
+                    let precioProducto = parseFloat(document.getElementById('precio-' + id).innerText.replace('$', ''));
+
+                    if (cantidad === 0) {
+                        fila.remove();
+                    } else {
+                        cantidadFila.innerText = cantidad;
+                        totalFila.innerText = '$' + (cantidad * precioProducto).toFixed(2);
+                    }
+                }
+                calcularTotal();
+            }
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            let filas = document.querySelectorAll('#tabla-productos tr');
+            filas.forEach(function(fila) {
+                let totalFila = parseFloat(fila.querySelector('.total-fila').innerText.replace('$', ''));
+                total += totalFila;
+            });
+            document.getElementById('coste-total').innerText = '$' + total.toFixed(2);
+            document.getElementById('coste-total-celda').innerText = '$' + total.toFixed(2);
+            document.getElementById('whatsapp-link').href = 'https://wa.me/?text=Hola, me gustaría solicitar los siguientes productos: ' + listarProductos();
+        }
+
+        function listarProductos() {
+            let productos = '';
+            let filas = document.querySelectorAll('#tabla-productos tr');
+            filas.forEach(function(fila) {
+                let nombreProducto = fila.cells[0].innerText;
+                let cantidad = fila.cells[1].innerText;
+                productos += nombreProducto + ' (x' + cantidad + '), ';
+            });
+            return productos;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="home.html"><img src="icons/home.png" alt="Inicio"> Home</a>
+                    <ul class="submenu">
+                        <li><a href="home.html">Inicio</a></li>
+                        <li><a href="tienda.html">Tienda</a></li>
+                        <li><a href="cafeteria.html">Cafetería</a></li>
+                    </ul>
+                </li>
+                <li><a href="contacto.html"><img src="icons/phone.png" alt="Contacto"> Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Productos Lácteos</h1>
+        <div class="productos-grid">
+            <!-- Producto 1 -->
+            <div class="cuadro-producto">
+                <img src="images/leche.png" alt="Leche" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-1" class="nombre-producto">Leche (1L)</span>
+                    <span id="precio-1" class="precio">$1.20</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(1)">+</button>
+                        <span id="cantidad-1">0</span>
+                        <button onclick="quitarProducto(1)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 2 -->
+            <div class="cuadro-producto">
+                <img src="images/queso.png" alt="Queso" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-2" class="nombre-producto">Queso (1lb)</span>
+                    <span id="precio-2" class="precio">$3.50</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(2)">+</button>
+                        <span id="cantidad-2">0</span>
+                        <button onclick="quitarProducto(2)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 3 -->
+            <div class="cuadro-producto">
+                <img src="images/yogurt.png" alt="Yogurt" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-3" class="nombre-producto">Yogurt (1L)</span>
+                    <span id="precio-3" class="precio">$2.00</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(3)">+</button>
+                        <span id="cantidad-3">0</span>
+                        <button onclick="quitarProducto(3)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 4 -->
+            <div class="cuadro-producto">
+                <img src="images/mantequilla.png" alt="Mantequilla" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-4" class="nombre-producto">Mantequilla (1lb)</span>
+                    <span id="precio-4" class="precio">$2.75</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(4)">+</button>
+                        <span id="cantidad-4">0</span>
+                        <button onclick="quitarProducto(4)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 5 -->
+            <div class="cuadro-producto">
+                <img src="images/crema.png" alt="Crema" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-5" class="nombre-producto">Crema (500ml)</span>
+                    <span id="precio-5" class="precio">$1.80</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(5)">+</button>
+                        <span id="cantidad-5">0</span>
+                        <button onclick="quitarProducto(5)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 6 -->
+            <div class="cuadro-producto">
+                <img src="images/helado.png" alt="Helado" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-6" class="nombre-producto">Helado (1L)</span>
+                    <span id="precio-6" class="precio">$4.50</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(6)">+</button>
+                        <span id="cantidad-6">0</span>
+                        <button onclick="quitarProducto(6)">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tabla-productos-container">
+            <h2>Lista de Productos</```html
+            </h2>
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filas de productos seleccionados se añadirán aquí -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align:right;"><strong>Coste Total:</strong></td>
+                        <td id="coste-total-celda">$0.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="coste-solicitar">
+            <a id="whatsapp-link" href="https://wa.me/?text=" target="_blank">
+                <button id="boton-whatsapp">
+                    <img src="icons/cart.png" alt="Carrito"> Solicitar
+                </button>
+            </a>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <img src="logo.png" alt="Logo de Biltmore">
+            <p>&copy; 2024 Biltmore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biltmore - Cárnicos</title>
+    <link rel="stylesheet" href="diseño carnicos.css">
+    <script>
+        function calcularTotal() {
+            let filas = document.querySelectorAll('.fila-producto');
+            let total = 0;
+            let productos = '';
+            filas.forEach(function(fila) {
+                let nombre = fila.querySelector('.producto').innerText;
+                let cantidad = parseInt(fila.querySelector('.cantidad').innerText);
+                let precio = parseFloat(fila.querySelector('.precio').innerText.replace('$', ''));
+                if (cantidad > 0) {
+                    productos += nombre + ' (x' + cantidad + '), ';
+                }
+                total += cantidad * precio;
+            });
+            document.getElementById('coste-total').innerText = '$' + total.toFixed(2);
+            document.getElementById('mensaje-whatsapp').value = 
+                'Hola, me gustaría solicitar los siguientes productos: ' + productos + 'Coste Total: $' + total.toFixed(2);
+        }
+
+        function aumentarCantidad(id) {
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText);
+            cantidad++;
+            cantidadElement.innerText = cantidad;
+            calcularTotal();
+        }
+
+        function disminuirCantidad(id) {
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText);
+            if (cantidad > 0) {
+                cantidad--;
+                cantidadElement.innerText = cantidad;
+                calcularTotal();
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="home.html"><img src="icons/home.png" alt="Inicio"> Home</a>
+                    <ul class="submenu">
+                        <li><a href="home.html">Inicio</a></li>
+                        <li><a href="tienda.html">Tienda</a></li>
+                        <li><a href="cafeteria.html">Cafetería</a></li>
+                    </ul>
+                </li>
+                <li><a href="contacto.html"><img src="icons/phone.png" alt="Contacto"> Contacto</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Productos de Cárnicos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Calidad</th>
+                    <th>Cantidad</th>
+                    <th>Aumentar/Disminuir</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fila-producto">
+                    <td class="producto">Carne de Res</td>
+                    <td class="precio">$5.00</td>
+                    <td>⭐⭐⭐⭐</td>
+                    <td class="cantidad" id="cantidad-1">0</td>
+                    <td>
+                        <button onclick="aumentarCantidad(1)">+</button>
+                        <button onclick="disminuirCantidad(1)">-</button>
+                    </td>
+                </tr>
+                <tr class="fila-producto">
+                    <td class="producto">Pollo</td>
+                    <td class="precio">$3.00</td>
+                    <td>⭐⭐⭐⭐⭐</td>
+                    <td class="cantidad" id="cantidad-2">0</td>
+                    <td>
+                        <button onclick="aumentarCantidad(2)">+</button>
+                        <button onclick="disminuirCantidad(2)">-</button>
+                    </td>
+                </tr>
+                <tr class="fila-producto">
+                    <td class="producto">Cerdo</td>
+                    <td class="precio">$4.50</td>
+                    <td>⭐⭐⭐⭐</td>
+                    <td class="cantidad" id="cantidad-3">0</td>
+                    <td>
+                        <button onclick="aumentarCantidad(3)">+</button>
+                        <button onclick="disminuirCantidad(3)">-</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Coste Total: <span id="coste-total">$0.00</span></h2>
+        <a id="whatsapp-link" href="https://wa.me/?text=" target="_blank">
+            <button id="boton-whatsapp">
+                <img src="icons/cart.png" alt="Carrito"> Solicitar
+            </button>
+        </a>
+        <input type="hidden" id="mensaje-whatsapp">
+    </main>
+    <footer>
+        <div class="footer-content">
+            <img src="logo.png" alt="Logo de Biltmore">
+            <p>&copy; 2024 Biltmore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

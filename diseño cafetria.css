@@ -1,0 +1,185 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('logo\ biltmore.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px;
+    color: rgb(129, 109, 109);
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+}
+
+nav ul li:hover .submenu {
+    display: block;
+}
+
+.submenu li a {
+    padding: 10px;
+}
+
+main {
+    padding-top: 80px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.imagen-persona {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    width: 150px;
+    opacity: 0.8;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 413px);
+    gap: 20px;
+    justify-content: center;
+}
+
+.cuadro-producto {
+    background-color: rgba(15, 15, 15, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.imagen-producto {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.info-producto {
+    font-size: 1.2em;
+}
+
+.cantidad-control {
+    margin-top: 10px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ffffff;
+    text-align: center;
+}
+
+table th {
+    background-color: #333;
+}
+
+.coste-solicitar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#coste-total {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#boton-whatsapp {
+    background-color: #25d366;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#boton-whatsapp:hover {
+    background-color: #1ebe54;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-content img {
+    width: 100px;
+    height: auto;
+}
+
+.footer-content p {
+    margin: 0;
+}
+
+
+
+
+

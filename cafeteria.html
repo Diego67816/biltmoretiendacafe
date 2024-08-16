@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biltmore - Cafetería</title>
+    <link rel="stylesheet" href="diseño cafetria.css">
+    <script>
+        function agregarProducto(id) {
+            let tabla = document.getElementById('tabla-productos');
+            let fila = document.getElementById('fila-' + id);
+            let nombreProducto = document.getElementById('nombre-' + id).innerText;
+            let precioProducto = parseFloat(document.getElementById('precio-' + id).innerText.replace('$', ''));
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText) + 1;
+
+            cantidadElement.innerText = cantidad;
+
+            if (fila) {
+                let cantidadFila = fila.querySelector('.cantidad-fila');
+                let totalFila = fila.querySelector('.total-fila');
+                cantidadFila.innerText = cantidad;
+                totalFila.innerText = '$' + (cantidad * precioProducto).toFixed(2);
+            } else {
+                let nuevaFila = tabla.insertRow();
+                nuevaFila.id = 'fila-' + id;
+                nuevaFila.innerHTML = `
+                    <td>${nombreProducto}</td>
+                    <td class="cantidad-fila">${cantidad}</td>
+                    <td>$${precioProducto.toFixed(2)}</td>
+                    <td class="total-fila">$${(cantidad * precioProducto).toFixed(2)}</td>
+                `;
+            }
+            calcularTotal();
+        }
+
+        function quitarProducto(id) {
+            let cantidadElement = document.getElementById('cantidad-' + id);
+            let cantidad = parseInt(cantidadElement.innerText);
+            if (cantidad > 0) {
+                cantidad--;
+                cantidadElement.innerText = cantidad;
+
+                let fila = document.getElementById('fila-' + id);
+                if (fila) {
+                    let cantidadFila = fila.querySelector('.cantidad-fila');
+                    let totalFila = fila.querySelector('.total-fila');
+                    let precioProducto = parseFloat(document.getElementById('precio-' + id).innerText.replace('$', ''));
+
+                    if (cantidad === 0) {
+                        fila.remove();
+                    } else {
+                        cantidadFila.innerText = cantidad;
+                        totalFila.innerText = '$' + (cantidad * precioProducto).toFixed(2);
+                    }
+                }
+                calcularTotal();
+            }
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            let filas = document.querySelectorAll('#tabla-productos tr');
+            filas.forEach(function(fila) {
+                let totalFila = parseFloat(fila.querySelector('.total-fila').innerText.replace('$', ''));
+                total += totalFila;
+            });
+            document.getElementById('coste-total').innerText = 'Coste Total: $' + total.toFixed(2);
+            document.getElementById('whatsapp-link').href = 'https://wa.me/?text=Hola, me gustaría solicitar los siguientes productos: ' + listarProductos();
+        }
+
+        function listarProductos() {
+            let productos = '';
+            let filas = document.querySelectorAll('#tabla-productos tr');
+            filas.forEach(function(fila) {
+                let nombreProducto = fila.cells[0].innerText;
+                let cantidad = fila.cells[1].innerText;
+                productos += nombreProducto + ' (x' + cantidad + '), ';
+            });
+            return productos;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="home.html"><img src="icons/home.png" alt="Inicio"> Home</a>
+                    <ul class="submenu">
+                        <li><a href="home.html">Inicio</a></li>
+                        <li><a href="tienda.html">Tienda</a></li>
+                    </ul>
+                </li>
+                <li><a href="contacto.html"><img src="icons/phone.png" alt="Contacto"> Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Menú de la Cafetería</h1>
+        <img src="images/persona.png" alt="Persona" class="imagen-persona">
+        <div class="productos-grid">
+            <!-- Producto 1 -->
+            <div class="cuadro-producto">
+                <img src="amburguesa.jpg" alt="Hamburguesa" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-1" class="nombre-producto">Hamburguesa</span>
+                    <span id="precio-1" class="precio">$4.00</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(1)">+</button>
+                        <span id="cantidad-1">0</span>
+                        <button onclick="quitarProducto(1)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 2 -->
+            <div class="cuadro-producto">
+                <img src="oferta.jpg" alt="Refresco" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-2" class="nombre-producto">Refresco</span>
+                    <span id="precio-2" class="precio">$1.50</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(2)">+</button>
+                        <span id="cantidad-2">0</span>
+                        <button onclick="quitarProducto(2)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 3 -->
+            <div class="cuadro-producto">
+                <img src="images/papas.png" alt="Papas Fritas" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-3" class="nombre-producto">Papas Fritas</span>
+                    <span id="precio-3" class="precio">$2.00</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(3)">+</button>
+                        <span id="cantidad-3">0</span>
+                        <button onclick="quitarProducto(3)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 4 -->
+            <div class="cuadro-producto">
+                <img src="images/cafe.png" alt="Café" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-4" class="nombre-producto">Café</span>
+                    <span id="precio-4" class="precio">$2.50</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(4)">+</button>
+                        <span id="cantidad-4">0</span>
+                        <button onclick="quitarProducto(4)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 5 -->
+            <div class="cuadro-producto">
+                <img src="images/sandwich.png" alt="Sandwich" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-5" class="nombre-producto">Sandwich</span>
+                    <span id="precio-5" class="precio">$3.00</span>
+                    <span>⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(5)">+</button>
+                        <span id="cantidad-5">0</span>
+                        <button onclick="quitarProducto(5)">-</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Producto 6 -->
+            <div class="cuadro-producto">
+                <img src="images/ensalada.png" alt="Ensalada" class="imagen-producto">
+                <div class="info-producto">
+                    <span id="nombre-6" class="nombre-producto">Ensalada</span>
+                    <span id="precio-6" class="precio">$2.75</span>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <div class="cantidad-control">
+                        <button onclick="agregarProducto(6)">+</button>
+                        <span id="cantidad-6">0</span>
+                        <button onclick="quitarProducto(6)">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tabla-productos-container">
+            <h2>Lista de Productos</h2>
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+            <div class="coste-solicitar">
+                <h2 id="coste-total">Coste Total: $0.00</h2>
+                <a id="whatsapp-link" href="https://wa.me/?text=" target="_blank">
+                    <button id="boton-whatsapp">
+                        <img src="icons/cart.png" alt="Carrito"> Solicitar
+                    </button>
+                </a>
+            </div>
+        </div>
+    </main>
+   
+</body>
+</html>
+
+
+
+
